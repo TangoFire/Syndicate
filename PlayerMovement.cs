@@ -5,7 +5,12 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public float moveSpeed = 5f;
+    public Vector2 lastMoveDir;
    
+    public float dashDistance = 10f;
+    public GameObject dashEffect;
+    public Transform dashStartPosition;
+
     public Rigidbody2D rb;
 
     public Camera cam;
@@ -35,5 +40,17 @@ public class PlayerMovement : MonoBehaviour
         Vector2 lookDir = mousePos - rb.position;
         float angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
         rb.rotation = angle;
+        lastMoveDir = direction;
+        HandleDash();
     }
+
+    private void HandleDash()
+    {
+        if (Input.GetKeyDown(KeyCode.Space)    )
+        {
+         transform.position += (Vector3)lastMoveDir * dashDistance;
+          //  Instantiate(dashEffect, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        }
+    }
+
 }
